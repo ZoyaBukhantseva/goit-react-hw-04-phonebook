@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import ContactForm from "./ContactForm/ContactForm";
 import ContactList from "./ContactsList/ContactsList";
 import Filter from "./Filter/Filter";
 
 const App=()=>{
-const[contact, setContact]= useState([])
+const[contact, setContact]= useState(()=>{
+  const contact =  JSON.parse( localStorage.getItem('LocalPhonebook'))
+  return  contact ? contact:[];
+})
 const [filter, setFilter]= useState("")
-
+useEffect(()=>{ localStorage.setItem('LocalPhonebook',JSON.stringify(contact))}, [contact])
 const addToPhonebook = (newContact) => {
   contact.find(
     (contact) => contact.name.toLowerCase() === newContact.name.toLowerCase()
