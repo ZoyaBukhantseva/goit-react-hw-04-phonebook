@@ -2,58 +2,65 @@ import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import styles from './ContactForm.module.css';
 import PropTypes from 'prop-types';
-
-const initialState = {
-  name: "",
-  number: "",
+ const initialState={
+  name: '',
+  number: '',
 };
-const ContactForm= ({onSubmit})=> {
-  const [state, setState] = useState({...initialState})
+const ContactForm=({onSubmit})=>{
+const [contact,setContact]= useState( {...initialState})
 
-  const handleChange = ({target}) => {
-      const {name, value} = target;
-      setState(prevState => {
-          return {...prevState, [name]: value}
-      })
-  }
+const handleSubmit = e => {
+  e.preventDefault();
+  const singleContact = {
+    name: contact.name,
+    number: contact.number,
+    id: uuidv4(),
+  };
+ 
+  onSubmit({...singleContact});
+  setContact({...initialState})
+};
+const inputHandler = ({ target }) => {
+  const { name,value } = target;
 
-  const handleSubmit = e => {
-      e.preventDefault();
-      onSubmit({name, number});
-      setState({...initialState});
-  }
+  setContact (prevContact=> {return {...prevContact,[name]: value }});
+};
+ 
 
-   
-  return (
-    <>
-      <form  className={styles.formwrap}  onSubmit={this.handleSubmit}>
-        <label className={styles.contactFormLable}>
-          <input
-          className={styles.input}
-            onChange={this.inputHandler}
-            type="text"
-            name="name"
-            placeholder="Enter name..."
-            value={name}
-          ></input>
-        </label>
-        <label className={styles.contactFormLable}>
-          <input
-          className={styles.input}
-            onChange={this.inputHandler}
-            type="tel"
-            name="number"
-            placeholder="Enter number..."
-            value={number}
-          ></input>
-        </label>
+const { name, number } = contact;
+ return (
+      <>
+        <form  className={styles.formwrap}  onSubmit={handleSubmit}>
+          <label className={styles.contactFormLable}>
+            <input
+            className={styles.input}
+              onChange={inputHandler}
+              type="text"
+              name="name"
+              placeholder="Enter name..."
+              value={name}
+            ></input>
+          </label>
+          <label className={styles.contactFormLable}>
+            <input
+            className={styles.input}
+              onChange={inputHandler}
+              type="tel"
+              name="number"
+              placeholder="Enter number..."
+              value={number}
+            ></input>
+          </label>
 
-        <button className={styles.btn} type="submit">Add contact</button>
-      </form>
-    </>
-  );
-  }
+          <button className={styles.btn} type="submit">Add contact</button>
+        </form>
+      </>
+    );
+}
 
+ContactForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+}
 /*class ContactForm extends Component {
   initialState = {
     name: '',
@@ -115,6 +122,6 @@ const ContactForm= ({onSubmit})=> {
 
 ContactForm.propTypes = {
   addToPhonebook: PropTypes.func.isRequired,
-};
-*/
+};*/
+
 export default ContactForm;

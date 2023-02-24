@@ -2,7 +2,7 @@ import React from 'react';
 import ContactListItem from './ContactListItem';
 import PropTypes from 'prop-types';
 
-const ContactList = ({ filteredContacts, deleteContact }) => {
+const ContactList = ({filteredContacts, deleteContact }) => {
   return (
     <ul>
       {filteredContacts.map(contact => (
