@@ -2,7 +2,7 @@ import React, { useState , useEffect} from "react";
 import ContactForm from "./ContactForm/ContactForm";
 import ContactList from "./ContactsList/ContactsList";
 import Filter from "./Filter/Filter";
-
+import s from "..//components/ContactForm/ContactForm.module.css"
 const App=()=>{
 const[contact, setContact]= useState(()=>{
   const contact =  JSON.parse( localStorage.getItem('LocalPhonebook'))
@@ -36,9 +36,9 @@ setContact (prevContact =>prevContact.filter((contact) => contact.id !== id));
 
 return (
   <div>
-    <h1>Phonebook</h1>
+    <h1 className={s.header}>Phonebook</h1>
     <ContactForm onSubmit={addToPhonebook} />
-    <h2>Contacts</h2>
+    <h2  className={s.header}>Contacts</h2>
     <Filter filter={filter} inputHandler={filterHandler} />
     <ContactList
       filteredContacts={filteredContacts}
